@@ -1,1 +1,25 @@
 .DS_Store
+
+# macOS
+.DS_Store
+
+# compiled C files
+*.o
+*.out
+
+# executables
+Dorito3123_lab5/app
+Dorito3123_lab5/app_asan
+Dorito3123_lab5/test_avl
+Dorito3123_lab5/test_btree
+Dorito3123_lab5/test_rb
+
+# debug folders
+*.dSYM/
+
+# large/generated data
+Dorito3123_lab5/data/Questions.csv
+Dorito3123_lab5/data/index_avl.txt
+Dorito3123_lab5/data/index_btree.txt
+Dorito3123_lab5/data/index_rb.txt
+Dorito3123_lab5/data/processed/
