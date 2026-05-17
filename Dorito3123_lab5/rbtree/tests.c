@@ -7,8 +7,8 @@
 static void test_basic(void) {
     RBTree* t = createRBTree();
     rbInsert(t, "python", 1, "Python basics");
-    rbInsert(t, "list",   2, "Python list");
-    rbInsert(t, "sort",   3, "Sorting");
+    rbInsert(t, "list", 2, "Python list");
+    rbInsert(t, "sort", 3, "Sorting");
 
     assert(t->size == 3);
     Vector* v = rbSearch(t, "python");
@@ -17,7 +17,7 @@ static void test_basic(void) {
     assert(rbSearch(t, "missing") == NULL);
 
     freeRBTree(t);
-    puts("rb basic: ok");
+    printf("rb basic: пройдено\n");
 }
 
 static void test_duplicate(void) {
@@ -30,7 +30,7 @@ static void test_duplicate(void) {
     assert(rbSearch(t, "python")->size == 3);
 
     freeRBTree(t);
-    puts("rb duplicate: ok");
+    printf("rb duplicate: пройдено\n");
 }
 
 static void test_many(void) {
@@ -39,17 +39,25 @@ static void test_many(void) {
         char k[16]; snprintf(k, sizeof(k), "w%04d", i);
         rbInsert(t, k, i, "x");
     }
+
     assert(t->size == 200);
+
     for (int i = 0; i < 200; i++) {
         char k[16]; snprintf(k, sizeof(k), "w%04d", i);
         assert(rbSearch(t, k));
     }
     freeRBTree(t);
-    puts("rb many: ok");
+    printf("rb many: пройдено\n");
 }
 
 static int cnt = 0;
-static void countv(const char* k, Vector* p, void* c) { (void)k;(void)p;(void)c; cnt++; }
+
+static void countv(const char* k, Vector* p, void* c) {
+    (void)k;
+    (void)p;
+    (void)c; 
+    cnt++;
+}
 
 static void test_traverse(void) {
     RBTree* t = createRBTree();
@@ -57,14 +65,15 @@ static void test_traverse(void) {
     cnt = 0; rbTraverse(t, countv, NULL);
     assert(cnt == 3);
     freeRBTree(t);
-    puts("rb traverse: ok");
+    printf("rb traverse: пройдено\n");
 }
 
 int main(void) {
+    printf("\nrb tests\n\n");
     test_basic();
     test_duplicate();
     test_many();
     test_traverse();
-    puts("all rb tests passed");
+    printf("\nвсе rb tests пройдены\n\n");
     return 0;
 }

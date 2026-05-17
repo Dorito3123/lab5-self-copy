@@ -7,8 +7,8 @@
 static void test_basic(void) {
     AVLTree* t = createAVLTree();
     avlInsert(t, "python", 1, "Python basics");
-    avlInsert(t, "list",   2, "Python list");
-    avlInsert(t, "sort",   3, "Sorting");
+    avlInsert(t, "list", 2, "Python list");
+    avlInsert(t, "sort", 3, "Sorting");
 
     assert(t->size == 3);
     Vector* v = avlSearch(t, "python");
@@ -17,7 +17,7 @@ static void test_basic(void) {
     assert(avlSearch(t, "missing") == NULL);
 
     freeAVLTree(t);
-    puts("avl basic: ok");
+    printf("avl basic: пройдено\n");
 }
 
 static void test_duplicate(void) {
@@ -30,7 +30,7 @@ static void test_duplicate(void) {
     assert(avlSearch(t, "python")->size == 3);
 
     freeAVLTree(t);
-    puts("avl duplicate: ok");
+    printf("avl duplicate: пройдено\n");
 }
 
 static void test_balance(void) {
@@ -39,17 +39,24 @@ static void test_balance(void) {
         char k[16]; snprintf(k, sizeof(k), "k%03d", i);
         avlInsert(t, k, i, "x");
     }
+
     assert(t->size == 100);
+
     for (int i = 0; i < 100; i++) {
         char k[16]; snprintf(k, sizeof(k), "k%03d", i);
         assert(avlSearch(t, k));
     }
     freeAVLTree(t);
-    puts("avl balance: ok");
+    printf("avl balance: пройдено\n");
 }
 
 static int cnt = 0;
-static void countv(const char* k, Vector* p, void* c) { (void)k;(void)p;(void)c; cnt++; }
+static void countv(const char* k, Vector* p, void* c) {
+    (void)k;
+    (void)p;
+    (void)c;
+    cnt++;
+}
 
 static void test_traverse(void) {
     AVLTree* t = createAVLTree();
@@ -57,14 +64,15 @@ static void test_traverse(void) {
     cnt = 0; avlTraverse(t, countv, NULL);
     assert(cnt == 3);
     freeAVLTree(t);
-    puts("avl traverse: ok");
+    printf("avl traverse: пройдено\n");
 }
 
 int main(void) {
+    printf("\navl tests\n\n");
     test_basic();
     test_duplicate();
     test_balance();
     test_traverse();
-    puts("all avl tests passed");
+    printf("\nвсе avl tests пройдены\n\n");
     return 0;
 }
