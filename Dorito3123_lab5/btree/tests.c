@@ -7,8 +7,8 @@
 static void test_basic(void) {
     BTree* t = createBTree();
     btreeInsert(t, "python", 1, "Python basics");
-    btreeInsert(t, "list",   2, "Python list");
-    btreeInsert(t, "sort",   3, "Sorting");
+    btreeInsert(t, "list", 2, "Python list");
+    btreeInsert(t, "sort", 3, "Sorting");
 
     assert(t->size == 3);
     Vector* v = btreeSearch(t, "python");
@@ -17,7 +17,7 @@ static void test_basic(void) {
     assert(btreeSearch(t, "missing") == NULL);
 
     freeBTree(t);
-    puts("btree basic: ok");
+    printf("btree basic: пройдено\n");
 }
 
 static void test_duplicate(void) {
@@ -30,22 +30,34 @@ static void test_duplicate(void) {
     assert(btreeSearch(t, "python")->size == 3);
 
     freeBTree(t);
-    puts("btree duplicate: ok");
+    printf("btree duplicate: пройдено\n");
 }
 
 static void test_splits(void) {
     BTree* t = createBTree();
     const char* keys[] = {"apple","banana","cherry","date","elderberry",
                           "fig","grape","honeydew","kiwi","lemon"};
-    for (int i = 0; i < 10; i++) btreeInsert(t, keys[i], i, "x");
+    for (int i = 0; i < 10; i++) {
+        btreeInsert(t, keys[i], i, "x");
+    }
+
     assert(t->size == 10);
-    for (int i = 0; i < 10; i++) assert(btreeSearch(t, keys[i]));
+
+    for (int i = 0; i < 10; i++) {
+        assert(btreeSearch(t, keys[i]));
+    }
+
     freeBTree(t);
-    puts("btree splits: ok");
+    printf("btree splits: пройдено\n");
 }
 
 static int cnt = 0;
-static void countv(const char* k, Vector* p, void* c) { (void)k;(void)p;(void)c; cnt++; }
+static void countv(const char* k, Vector* p, void* c) {
+    (void)k;
+    (void)p;
+    (void)c;
+    cnt++;
+}
 
 static void test_traverse(void) {
     BTree* t = createBTree();
@@ -53,17 +65,19 @@ static void test_traverse(void) {
         char k[16]; snprintf(k, sizeof(k), "w%02d", i);
         btreeInsert(t, k, i, "x");
     }
+
     cnt = 0; btreeTraverse(t, countv, NULL);
     assert(cnt == 20);
     freeBTree(t);
-    puts("btree traverse: ok");
+    printf("btree traverse: пройдено\n");
 }
 
 int main(void) {
+    printf("\nbtree tests\n\n");
     test_basic();
     test_duplicate();
     test_splits();
     test_traverse();
-    puts("all btree tests passed");
+    printf("\nвсе btree tests пройдены\n\n");
     return 0;
 }
