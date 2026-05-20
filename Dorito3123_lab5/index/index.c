@@ -79,8 +79,8 @@ Index* loadIndex(const char* path, TreeType type) {
     char line[MAX_TITLE_LEN + 512];
     while (fgets(line, sizeof(line), f)) {
         line[strcspn(line, "\n")] = '\0';
-        char* key   = strtok(line, "\t");
-        char* id_s  = strtok(NULL, "\t");
+        char* key = strtok(line, "\t");
+        char* id_s = strtok(NULL, "\t");
         char* title = strtok(NULL, "\t");
         if (!key || !id_s || !title) continue;
         insertTerm(idx, key, atoi(id_s), title);

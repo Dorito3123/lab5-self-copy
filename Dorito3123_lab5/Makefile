@@ -6,12 +6,17 @@ VECTOR_OBJ = ../lab3/vector/generic.o
 OBJ_SHARED = posting.o avl/avl.o rbtree/rbtree.o btree/btree.o \
              index/index.o index/search.o $(VECTOR_OBJ)
 
-.PHONY: all app u_tests test clean
+LEV_OBJ = levenstein/levenshtein.o
+
+.PHONY: all app u_tests test bench clean
 
 all: app u_tests
 
-app: $(OBJ_SHARED) main.o
-	$(CC) $(CFLAGS) -o app $(OBJ_SHARED) main.o
+app: $(OBJ_SHARED) $(LEV_OBJ) main.o
+	$(CC) $(CFLAGS) -o app $(OBJ_SHARED) $(LEV_OBJ) main.o
+
+exp_lev: $(LEV_OBJ) levenstein/exp_levenstein.o
+	$(CC) $(CFLAGS) -o exp_lev $(LEV_OBJ) levenstein/exp_levenstein.o
 
 test_avl: posting.o avl/avl.o avl/tests.o $(VECTOR_OBJ)
 	$(CC) $(CFLAGS) -o test_avl posting.o avl/avl.o avl/tests.o $(VECTOR_OBJ)
@@ -43,11 +48,13 @@ test: app
 	./app search --type=btree --index=data/test/idx_btree.txt --json "python list"
 	@echo "=== E2E OK ==="
 
+bench: app
+	@bash bench.sh
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm -f app test_avl test_rb test_btree
-	rm -f *.o avl/*.o rbtree/*.o btree/*.o index/*.o
+	rm -f app exp_lev test_avl test_rb test_btree
+	rm -f *.o avl/*.o rbtree/*.o btree/*.o index/*.o levenstein/*.o
 	rm -f data/index_*.txt data/test/docs.jsonl data/test/idx_*.txt

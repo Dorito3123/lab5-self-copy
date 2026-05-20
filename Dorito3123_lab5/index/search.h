@@ -9,10 +9,19 @@ typedef struct {
 } SearchResult;
 
 typedef struct {
-    Vector* results;   /* elements: SearchResult, топ-10 */
-    int     total;     /* всего найдено документов       */
+    Vector* results;
+    int     total;
     double  time_ms;
 } SearchResults;
+
+typedef struct {
+    char    term[256];
+    int     distance;
+    Vector* postings;
+} FuzzyCandidate;
+
+Vector*        fuzzyFindCandidates(Index* idx, const char* term, int max_distance);
+SearchResults* fuzzySearch(Index* idx, const char* query, int max_distance);
 
 Vector*        intersectPostings(Vector** lists, int n);
 SearchResults* search(Index* idx, const char* query);
